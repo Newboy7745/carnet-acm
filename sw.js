@@ -1,5 +1,5 @@
 /* Suivi ACM : fonctionnement hors ligne */
-const VERSION = "suivi-acm-v2.1.0";
+const VERSION = "suivi-acm-v2.2.0";
 const FONTS = "carnet-acm-polices";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png"];
 const MINE = k => /^(suivi-acm|carnet-acm)/.test(k);
