@@ -1,5 +1,5 @@
 /* Suivi ACM : fonctionnement hors ligne */
-const VERSION = "suivi-acm-v2.5.0";
+const VERSION = "suivi-acm-v2.6.0";
 const FONTS = "carnet-acm-polices";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png"];
 const MINE = k => /^(suivi-acm|carnet-acm)/.test(k);
@@ -14,6 +14,9 @@ self.addEventListener("fetch", e => {
   const req = e.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
+  /* seules les requêtes GET de ce site (et des polices) sont gérées ; tout le reste (API de taux de change, etc.) passe directement au réseau, sans interception */
+  if (url.protocol !== "https:" && url.protocol !== "http:") return;
+  if (req.cache === "only-if-cached" && req.mode !== "same-origin") return;
   if (url.origin === self.location.origin){
     if (!url.pathname.startsWith(new URL("./", self.location).pathname)) return;
     e.respondWith(caches.open(VERSION).then(async cache => {
