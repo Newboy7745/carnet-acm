@@ -1,7 +1,7 @@
 /* Suivi ACM : fonctionnement hors ligne */
-const VERSION = "suivi-acm-v3.0.2";
+const VERSION = "suivi-acm-v3.1.0";
 const FONTS = "carnet-acm-polices";
-const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png"];
+const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png", "./shortcut-rapide.png", "./shortcut-appel.png", "./shortcut-depense.png", "./shortcut-planning.png"];
 const MINE = k => /^(suivi-acm|carnet-acm)/.test(k);
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
@@ -30,4 +30,12 @@ self.addEventListener("fetch", e => {
       try { const res = await fetch(req); cache.put(req, res.clone()); return res; } catch (err){ return Response.error(); }
     }));
   }
+});
+self.addEventListener("notificationclick", e => {
+  e.notification.close(); const d = e.notification.data || {}, base = new URL("./", self.location).href;
+  e.waitUntil(self.clients.matchAll({type:"window", includeUncontrolled:true}).then(list => {
+    const c = list.find(x => x.url.startsWith(base));
+    if (c){ c.postMessage({t:"cb-notif", hid:d.hid || ""}); return c.focus(); }
+    return self.clients.openWindow(base + (d.hid ? "#cbh=" + encodeURIComponent(d.hid) : ""));
+  }));
 });

@@ -11,6 +11,56 @@
   "orientation": "portrait",
   "background_color": "#F1F2EE",
   "theme_color": "#16224A",
+  "shortcuts": [
+    {
+      "name": "Accès rapide",
+      "short_name": "Accès rapide",
+      "url": "./#rapide",
+      "icons": [
+        {
+          "src": "shortcut-rapide.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Faire l'appel",
+      "short_name": "Faire l'appel",
+      "url": "./#rapide/appel",
+      "icons": [
+        {
+          "src": "shortcut-appel.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Ajouter une dépense",
+      "short_name": "Dépense",
+      "url": "./#rapide/depense",
+      "icons": [
+        {
+          "src": "shortcut-depense.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Planning du jour",
+      "short_name": "Planning",
+      "url": "./#rapide/planning",
+      "icons": [
+        {
+          "src": "shortcut-planning.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
   "icons": [
     {
       "src": "icon-192.png",
