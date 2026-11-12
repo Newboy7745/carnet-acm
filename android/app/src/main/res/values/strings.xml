@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ACM Widgets</string>
+    <string name="app_desc">Widgets d\'écran d\'accueil pour l\'application Suivi ACM : appel, budget, planning et alertes du séjour en cours.</string>
+    <string name="refresh_label">Actualisation</string>
     <string name="w_dash">Tableau de bord</string>
     <string name="w_appel">Appel</string>
     <string name="w_budget">Budget</string>

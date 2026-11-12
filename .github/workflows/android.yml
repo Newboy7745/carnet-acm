@@ -1,6 +1,7 @@
-# Suivi ACM : construit automatiquement l'app Android « ACM Widgets » (APK) et la publie dans les « Releases » du dépôt.
+# Suivi ACM : construit l'app Android « ACM Widgets » (APK), la vérifie et la publie dans les « Releases » du dépôt.
 # Lien de téléchargement permanent : https://github.com/Newboy7745/carnet-acm/releases/latest/download/ACM-Widgets.apk
-# (même système que SJ Widgets ; le site GitHub Pages n'est pas concerné)
+# Signature : clé privée chiffrée (android/keystore/acm-release.p12.enc), déchiffrée avec le secret ACM_SIGNING_PASS.
+# Sans ce secret : construction et vérifications seulement, aucune publication.
 name: ACM Widgets (Android)
 
 on:
@@ -16,6 +17,8 @@ permissions:
 jobs:
   apk:
     runs-on: ubuntu-latest
+    env:
+      ACM_SIGNING_PASS: ${{ secrets.ACM_SIGNING_PASS }}
     steps:
       - uses: actions/checkout@v4
 
@@ -32,17 +35,40 @@ jobs:
         working-directory: android
         run: gradle --no-daemon testReleaseUnitTest
 
-      - name: Compiler l'APK
+      - name: Clé de signature (secret ACM_SIGNING_PASS)
+        run: |
+          if [ -z "$ACM_SIGNING_PASS" ]; then
+            echo "::warning::Secret ACM_SIGNING_PASS absent : APK non signé, pas de publication. Voir WORKFLOW-ANDROID.txt."
+            exit 0
+          fi
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -in android/keystore/acm-release.p12.enc -out "$RUNNER_TEMP/acm-release.p12" -pass env:ACM_SIGNING_PASS
+          echo "ACM_KEYSTORE=$RUNNER_TEMP/acm-release.p12" >> "$GITHUB_ENV"
+
+      - name: Compiler l'APK (release, R8)
         working-directory: android
         run: gradle --no-daemon assembleRelease
 
+      - name: Vérifier l'APK (permissions, composants, signature)
+        run: |
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          APK=$(ls android/app/build/outputs/apk/release/*.apk | head -1)
+          echo "APK : $APK ($(stat -c %s "$APK") octets)"
+          "$BT/aapt2" dump badging "$APK" | grep -E "^(package|sdkVersion|targetSdkVersion|uses-permission|application-label|launchable-activity)"
+          "$BT/aapt2" dump xmltree "$APK" --file AndroidManifest.xml | grep -E "E: (activity|receiver|service|provider)|A: android:(name|exported|usesCleartextTraffic|debuggable|allowBackup)" | sed 's/(0x[0-9a-f]*)//'
+          PERMS=$("$BT/aapt2" dump permissions "$APK" | grep -E "^uses-permission" | sed "s/.*name='\([^']*\)'.*/\1/" | sort -u | tr '\n' ' ')
+          echo "Permissions : $PERMS"
+          [ "$PERMS" = "android.permission.INTERNET " ] || { echo "::error::Permissions inattendues : $PERMS"; exit 1; }
+          if "$BT/aapt2" dump xmltree "$APK" --file AndroidManifest.xml | grep -q "android:debuggable"; then echo "::error::APK debuggable"; exit 1; fi
+          if [ -n "$ACM_KEYSTORE" ]; then "$BT/apksigner" verify --verbose --print-certs "$APK" | grep -E "Verified using|Signer #1 certificate (DN|SHA-256)"; fi
+          cp "$APK" ACM-Widgets.apk
+
       - name: Publier la version
+        if: env.ACM_KEYSTORE != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp android/app/build/outputs/apk/release/app-release.apk ACM-Widgets.apk
           TAG="acm-widgets-${{ github.run_number }}"
           gh release create "$TAG" ACM-Widgets.apk \
             --title "ACM Widgets ${{ github.run_number }}" \
-            --notes "Application Android des widgets de Suivi ACM. Installez ACM-Widgets.apk sur le téléphone (autoriser les applis inconnues), puis dans Suivi ACM : Données, Widgets Android, Connecter mes widgets." \
+            --notes "Application Android des widgets de Suivi ACM, signée avec la clé privée de Suivi ACM. Si une ancienne version d'ACM Widgets est installée, désinstallez-la d'abord (une seule fois), puis installez ACM-Widgets.apk et reconnectez les widgets depuis Suivi ACM (Données, Widgets Android)." \
             --latest

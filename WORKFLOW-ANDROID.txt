@@ -6,8 +6,11 @@ ACM Widgets (application Android des widgets de Suivi ACM)
   Étapes : tests JVM (déchiffrement d'un résumé produit par Suivi ACM, schéma), APK signé, version publiée
   « acm-widgets-N » avec le fichier ACM-Widgets.apk.
 - Lien permanent : https://github.com/Newboy7745/carnet-acm/releases/latest/download/ACM-Widgets.apk
-- Signature : clé android/app/acm.keystore (dans le dépôt, comme SJ Widgets) : chaque nouvelle version
-  s'installe par-dessus la précédente. Ne pas la remplacer, sinon il faudrait désinstaller l'ancienne appli.
+- Signature : clé privée de publication, chiffrée dans android/keystore/acm-release.p12.enc (AES-256).
+  Le workflow la déchiffre avec le secret GitHub « ACM_SIGNING_PASS » (Settings, Secrets and variables, Actions).
+  Sans ce secret : construction et vérifications seulement, aucune version publiée. Ne jamais changer de clé :
+  sinon il faudrait désinstaller l'appli avant d'installer la suivante. (L'ancienne clé, publique, n'est plus utilisée.)
+- Vérifications à chaque construction : permissions (seulement INTERNET), composants, pas de mode débogage, signature.
 - Données : Suivi ACM publie un résumé chiffré (AES-GCM 256, clé créée à la connexion) sur un sujet ntfy secret ;
   l'appli lit https://ntfy.sh/<sujet>/json?poll=1&since=12h, déchiffre et affiche. Aucun serveur, aucun compte.
 - Le site (index.html, sw.js, manifest.webmanifest) n'est pas touché par ce workflow.

@@ -2,35 +2,45 @@ plugins {
     id 'com.android.application'
 }
 
+/* Signature : clé privée de publication, jamais dans le dépôt en clair.
+   Le workflow la déchiffre avec le secret GitHub ACM_SIGNING_PASS et passe son chemin par ACM_KEYSTORE.
+   Sans ce secret, la version « release » est construite sans signature (et n'est pas publiée). */
+def ks = System.getenv('ACM_KEYSTORE')
+def ksPass = System.getenv('ACM_SIGNING_PASS')
+
 android {
     namespace 'fr.kalailet.acmwidgets'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId 'fr.kalailet.acmwidgets'
         minSdk 26
-        targetSdk 34
-        versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '1')
-        versionName '1.' + (System.getenv('GITHUB_RUN_NUMBER') ?: '0')
+        targetSdk 35
+        versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '1') + 100
+        versionName '2.' + (System.getenv('GITHUB_RUN_NUMBER') ?: '0')
     }
 
-    /* signature stable (clé dans le dépôt, comme SJ Widgets) : chaque nouvelle version s'installe par-dessus la précédente */
     signingConfigs {
-        acm {
-            storeFile file('acm.keystore')
-            storePassword 'acmwidgets'
-            keyAlias 'acm'
-            keyPassword 'acmwidgets'
+        if (ks && ksPass && file(ks).exists()) {
+            release {
+                storeFile file(ks)
+                storeType 'pkcs12'
+                storePassword ksPass
+                keyAlias 'acmwidgets'
+                keyPassword ksPass
+                enableV1Signing true
+                enableV2Signing true
+                enableV3Signing true
+            }
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            signingConfig signingConfigs.acm
-        }
-        debug {
-            signingConfig signingConfigs.acm
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (ks && ksPass && file(ks).exists()) signingConfig signingConfigs.release
         }
     }
 

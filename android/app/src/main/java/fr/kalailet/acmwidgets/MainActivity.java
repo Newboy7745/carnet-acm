@@ -67,6 +67,7 @@ public class MainActivity extends Activity {
 
     private void build() {
         ScrollView sv = new ScrollView(this);
+        sv.setFitsSystemWindows(true); /* Android 15 : affichage bord à bord, le contenu reste sous la barre d'état */
         sv.setFillViewport(true);
         LinearLayout root = UI.column(this);
         sv.addView(root);

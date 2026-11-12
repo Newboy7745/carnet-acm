@@ -5,13 +5,17 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 /**
- * Bouton Actualiser des widgets : la lecture se fait au premier plan (une activité invisible),
+ * Bouton Actualiser des widgets : la lecture se fait au premier plan (petite fenêtre visible « Actualisation des widgets… »),
  * car Samsung coupe souvent internet aux applis en arrière-plan (« UnknownHostException »).
  */
 public class RefreshActivity extends Activity {
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
+        android.widget.TextView t = UI.text(this, "Actualisation des widgets…", 17);
+        int p = UI.dp(this, 24);
+        t.setPadding(p, p, p, p);
+        setContentView(t);
         final android.content.Context app = getApplicationContext();
         Widgets.refreshing(app, true);
         new Thread(() -> {
@@ -21,7 +25,6 @@ public class RefreshActivity extends Activity {
             runOnUiThread(() -> {
                 Toast.makeText(app, msg, Toast.LENGTH_SHORT).show();
                 finish();
-                overridePendingTransition(0, 0);
             });
         }).start();
     }
