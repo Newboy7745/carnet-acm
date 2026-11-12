@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- couleurs de Suivi ACM (variables CSS : --band, --band-2, --accent, --on-band, --on-band-2) -->
+    <!-- couleurs de Suivi ACM (variables CSS band, band-2, accent, on-band, on-band-2) -->
     <color name="navy">#16224A</color>
     <color name="navy2">#22306A</color>
     <color name="accent">#C4461A</color>
