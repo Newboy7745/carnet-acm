@@ -1,0 +1,55 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'fr.kalailet.acmwidgets'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'fr.kalailet.acmwidgets'
+        minSdk 26
+        targetSdk 34
+        versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '1')
+        versionName '1.' + (System.getenv('GITHUB_RUN_NUMBER') ?: '0')
+    }
+
+    /* signature stable (clé dans le dépôt, comme SJ Widgets) : chaque nouvelle version s'installe par-dessus la précédente */
+    signingConfigs {
+        acm {
+            storeFile file('acm.keystore')
+            storePassword 'acmwidgets'
+            keyAlias 'acm'
+            keyPassword 'acmwidgets'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.acm
+        }
+        debug {
+            signingConfig signingConfigs.acm
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.json:json:20231013'
+}

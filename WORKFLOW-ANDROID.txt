@@ -1,0 +1,13 @@
+ACM Widgets (application Android des widgets de Suivi ACM)
+
+- Sources : dossier android/ (Java, sans bibliothèque externe ; paquet fr.kalailet.acmwidgets).
+- Construction : .github/workflows/android.yml (GitHub Actions, Java 17, Gradle 8.9). Se lance à chaque envoi
+  qui touche android/ ou le workflow (ou à la main : Actions, « ACM Widgets (Android) », Run workflow).
+  Étapes : tests JVM (déchiffrement d'un résumé produit par Suivi ACM, schéma), APK signé, version publiée
+  « acm-widgets-N » avec le fichier ACM-Widgets.apk.
+- Lien permanent : https://github.com/Newboy7745/carnet-acm/releases/latest/download/ACM-Widgets.apk
+- Signature : clé android/app/acm.keystore (dans le dépôt, comme SJ Widgets) : chaque nouvelle version
+  s'installe par-dessus la précédente. Ne pas la remplacer, sinon il faudrait désinstaller l'ancienne appli.
+- Données : Suivi ACM publie un résumé chiffré (AES-GCM 256, clé créée à la connexion) sur un sujet ntfy secret ;
+  l'appli lit https://ntfy.sh/<sujet>/json?poll=1&since=12h, déchiffre et affiche. Aucun serveur, aucun compte.
+- Le site (index.html, sw.js, manifest.webmanifest) n'est pas touché par ce workflow.

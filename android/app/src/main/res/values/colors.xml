@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- couleurs de Suivi ACM (variables CSS : --band, --band-2, --accent, --on-band, --on-band-2) -->
+    <color name="navy">#16224A</color>
+    <color name="navy2">#22306A</color>
+    <color name="accent">#C4461A</color>
+    <color name="on_band">#F3F1EA</color>
+    <color name="on_band2">#AAB3D2</color>
+    <color name="icon_bg">#16224A</color>
+</resources>

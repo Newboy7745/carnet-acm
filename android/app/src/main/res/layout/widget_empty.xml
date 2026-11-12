@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:clipToOutline="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="14dp">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ACM Widgets" android:textColor="#FFFFFF" android:textSize="15sp" android:textStyle="bold" android:gravity="center"/><TextView android:id="@+id/msg" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Touchez pour connecter" android:textColor="#D9FFFFFF" android:textSize="12sp" android:layout_marginTop="6dp" android:gravity="center"/>
+</LinearLayout>

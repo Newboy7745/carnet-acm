@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ACM Widgets</string>
+    <string name="w_dash">Tableau de bord</string>
+    <string name="w_appel">Appel</string>
+    <string name="w_budget">Budget</string>
+    <string name="w_planning">Planning</string>
+    <string name="w_dash_d">Le séjour en grand : appel, budget, planning et alertes (toute la page, 5 x 6)</string>
+    <string name="w_appel_d">Présents au dernier appel et bouton Faire l\'appel</string>
+    <string name="w_budget_d">Budget restant et bouton + Dépense</string>
+    <string name="w_planning_d">Activités d\'aujourd\'hui et de demain</string>
+</resources>

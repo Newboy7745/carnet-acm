@@ -1,0 +1,65 @@
+{
+ "topic": "acmw-gxypl6ge5luotdbq2tenhgdve5",
+ "key": "WC-qFOQKj44uPi288-MiKjEkdhWMP__3jzCPXgtKyJw",
+ "today": "2026-12-04",
+ "message": "acmw1.jYiuvO5Pkqz7Clf8R7uFtHPTtlgG/G0+yrVAac4jtmcVVAbLgCb6b13l23kiGOKFq1rSMc4hUxx8sw84C5GddZy3pp5mWEvh89IHx4iltbepM0n+TurWUmo6oODlCgQwFWbcrVvfBg+sJbDDdyLLrwmkDh10rxKuCr5xr+FP9Hw+MGllwbHsgchuun7etGZAqa8QV09uGFQhFKSBAbDoa3un0Gx4XV3lky9kwIrelFDZMs4DI6tehfEH9frCxiI7D1nSPBgkiArN4t78AhcPfoKO4s5j0idsdrhcWfIixQpVtVlOR3ESYxjByfSPeUS8Mr1pjeOvqQnrGbYOPl/TvM3ZZm0giispURhljeTJLZXzU227E+ZETNESW4Uv46USWDtELjLY99nr6p4Gv3k028x/8tQDs47e/6r+ZwzObpg+LziD0T1SqSHbJuApKvgH21bvIiF6Ujuh1l9RgyIqU80dt0KycMObMrOMyQky+s/rSNY805x6/K7N6+qgUzDtJhLPgWXY9mG99qF7dPORmnrtWhijDgTi/OgfwaLBvd295FT9Fk7CEx0CRh5TkoLkHw==",
+ "snapshot": {
+  "v": 1,
+  "at": 1796374800000,
+  "app": "https://newboy7745.github.io/carnet-acm/",
+  "stays": [
+   {
+    "id": "colo-fictive-test",
+    "nom": "Colo fictive (TEST)",
+    "deb": "2026-12-03",
+    "fin": "2026-12-09",
+    "st": "En cours",
+    "d": "2026-12-04",
+    "appel": {
+     "n": 6,
+     "last": {
+      "h": "14:05",
+      "p": 5,
+      "n": 6
+     }
+    },
+    "bud": {
+     "plan": 0,
+     "spent": 133.4,
+     "rest": -133.4,
+     "pct": null
+    },
+    "plan": {
+     "2026-12-04": [
+      {
+       "h": "Matin",
+       "t": "Grand jeu de piste dans le village",
+       "g": ""
+      },
+      {
+       "h": "Après-midi",
+       "t": "Baignade surveillée au lac fictif",
+       "g": ""
+      }
+     ],
+     "2026-12-05": [
+      {
+       "h": "Journée",
+       "t": "Randonnée et pique-nique",
+       "g": ""
+      }
+     ],
+     "2026-12-06": []
+    },
+    "al": {
+     "inc": 6,
+     "trait": 0,
+     "eqM": 3,
+     "taux": true,
+     "manque": 0,
+     "dip": 0
+    }
+   }
+  ]
+ }
+}
