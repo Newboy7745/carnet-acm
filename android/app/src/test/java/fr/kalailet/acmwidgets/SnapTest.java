@@ -33,7 +33,26 @@ public class SnapTest {
     public void decryptsWhatThePwaEncrypted() throws Exception {
         JSONObject f = fixture();
         String json = Crypto.open(f.getString("message"), f.getString("key"), f.getString("topic"));
-        assertTrue("même contenu que le résumé de la PWA", new JSONObject(json).similar(f.getJSONObject("snapshot")));
+        assertTrue("même contenu que le résumé de la PWA", same(new JSONObject(json), f.getJSONObject("snapshot")));
+    }
+
+    /** égalité profonde (objets, tableaux, nombres) sans dépendre de la version d'org.json */
+    private static boolean same(Object a, Object b) throws Exception {
+        if (a instanceof JSONObject && b instanceof JSONObject) {
+            JSONObject x = (JSONObject) a, y = (JSONObject) b;
+            if (x.length() != y.length()) return false;
+            java.util.Iterator<String> it = x.keys();
+            while (it.hasNext()) { String k = it.next(); if (!y.has(k) || !same(x.get(k), y.get(k))) return false; }
+            return true;
+        }
+        if (a instanceof org.json.JSONArray && b instanceof org.json.JSONArray) {
+            org.json.JSONArray x = (org.json.JSONArray) a, y = (org.json.JSONArray) b;
+            if (x.length() != y.length()) return false;
+            for (int i = 0; i < x.length(); i++) if (!same(x.get(i), y.get(i))) return false;
+            return true;
+        }
+        if (a instanceof Number && b instanceof Number) return Math.abs(((Number) a).doubleValue() - ((Number) b).doubleValue()) < 1e-9;
+        return String.valueOf(a).equals(String.valueOf(b));
     }
 
     @Test
