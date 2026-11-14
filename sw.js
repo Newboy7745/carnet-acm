@@ -1,11 +1,13 @@
 /* Suivi ACM : fonctionnement hors ligne */
-const VERSION = "suivi-acm-v3.4.3";
+const VERSION = "suivi-acm-v3.4.4-a65de1d1ec";
+/* T8 : le nom du cache change à chaque modification de l'application (empreinte de index.html), donc ce fichier change et les appareils détectent la nouvelle version */
 const FONTS = "carnet-acm-polices";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png", "./shortcut-rapide.png", "./shortcut-appel.png", "./shortcut-depense.png", "./shortcut-planning.png"];
 const MINE = k => /^(suivi-acm|carnet-acm)/.test(k);
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE.map(u => new Request(u, {cache:"reload"})))).then(() => self.skipWaiting()));
 });
+self.addEventListener("message", e => { if (e.data && e.data.t === "skip") self.skipWaiting(); });
 self.addEventListener("activate", e => {
   // ne supprime que les anciens caches de cette application (pas ceux des autres applis du même site)
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => MINE(k) && k !== VERSION && k !== FONTS).map(k => caches.delete(k)))).then(() => self.clients.claim()));
