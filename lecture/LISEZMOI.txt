@@ -1,0 +1,3 @@
+Moteur de lecture du texte des images : tesseract.js-core 7.0.0 (Tesseract OCR), licence Apache 2.0.
+Modèle français : tesseract-ocr/tessdata_fast (fra.traineddata), licence Apache 2.0.
+Texte de la licence : LICENCE-Apache-2.0.txt

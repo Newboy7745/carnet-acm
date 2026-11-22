@@ -1,5 +1,5 @@
 /* Suivi ACM : fonctionnement hors ligne */
-const VERSION = "suivi-acm-v3.4.32-777d0fb86f";
+const VERSION = "suivi-acm-v3.4.33-8ce815a85f";
 /* T8 : le nom du cache change à chaque modification de l'application (empreinte de index.html), donc ce fichier change et les appareils détectent la nouvelle version */
 const FONTS = "carnet-acm-polices";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png", "./shortcut-rapide.png", "./shortcut-appel.png", "./shortcut-depense.png", "./shortcut-planning.png"];
@@ -21,6 +21,8 @@ self.addEventListener("fetch", e => {
   if (req.cache === "only-if-cached" && req.mode !== "same-origin") return;
   if (url.origin === self.location.origin){
     if (!url.pathname.startsWith(new URL("./", self.location).pathname)) return;
+    /* lot 7 : les fichiers du moteur de lecture (lecture/…) sont gardés par l'application dans leur propre cache, conservé d'une version à l'autre */
+    if (url.pathname.includes("/lecture/")) return;
     e.respondWith(caches.open(VERSION).then(async cache => {
       const hit = await cache.match(req, {ignoreSearch:true}) || (req.mode === "navigate" ? await cache.match("./") : null);
       const net = fetch(req).then(res => { if (res && res.ok) cache.put(req, res.clone()); return res; }).catch(() => hit);
