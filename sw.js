@@ -1,5 +1,5 @@
 /* Suivi ACM : fonctionnement hors ligne */
-const VERSION = "suivi-acm-v3.4.43-5d56a2a829";
+const VERSION = "suivi-acm-v3.4.44-2aefdf597e";
 /* T8 : le nom du cache change à chaque modification de l'application (empreinte de index.html), donc ce fichier change et les appareils détectent la nouvelle version */
 const FONTS = "carnet-acm-polices";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png", "./shortcut-rapide.png", "./shortcut-appel.png", "./shortcut-depense.png", "./shortcut-planning.png"];
